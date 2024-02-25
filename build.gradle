@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'net.researchgate.release' version '3.0.2'
 }
 
 group = 'com.ruimo.util'
