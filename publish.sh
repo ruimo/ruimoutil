@@ -1,3 +1,3 @@
 #!/bin/sh
-echo TEST_TOKEN: $TEST_TOKEN
+export PGK_TOKEN="$1"
 ./gradlew publishRuimoutilPublicationToGprRepository

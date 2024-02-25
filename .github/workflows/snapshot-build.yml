@@ -17,4 +17,4 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Publish
-        run: ./publish.sh
+        run: ./publish.sh ${{ secrets.PKG_TOKEN }}
