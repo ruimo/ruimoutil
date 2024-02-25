@@ -1,3 +1,10 @@
+name: Snapshot build
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    tags: ["*"]
+
 steps:
   - uses: actions/checkout@v4
   - uses: actions/setup-java@v3
