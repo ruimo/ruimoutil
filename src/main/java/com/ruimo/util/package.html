@@ -1,0 +1,167 @@
+<body>
+
+<#if locale="ja">
+このパッケージにはサイズ0配列とクラスメンバへのアクセス用クラスが含まれます。
+<#else>
+This package contains empty arrays classes and member accessor classes.
+</#if>
+
+<h4>
+<#if locale="ja">
+サイズ0配列
+<#else>
+Empty arrays
+</#if>
+</h4>
+
+<p>
+<#if locale="ja">
+
+サイズ0配列クラスは、サイズ0の配列オブジェクトを返します。これを使用す
+ることで不要なインスタンス生成を抑制することができます。例えば、以下の
+コードはメソッドが呼び出されるごとに新たに配列のインスタンスを生成しま
+す。
+
+<#else>
+Empty arrays class provides arrays that are size zero. You can
+avoid creating unnecessary array creation by using these classes. For
+example, the following code will create an empty array every time the
+method is invoked.
+</#if>
+</p>
+
+<pre>
+  foo(new Object[0]);
+</pre>
+
+<p>
+<#if locale="ja">
+
+{@link com.ruimo.util.EmptyArrays}あるいは{@link
+com.ruimo.util.TypedEmptyArrays}を使用することで、1つのインスタンスが
+共用されます。
+
+<#else>
+By using {@link com.ruimo.util.EmptyArrays} or {@link
+com.ruimo.util.TypedEmptyArrays}, a single instance can be shared
+everywhere:
+</#if>
+</p>
+
+<pre>
+  foo(EmptyArrays.FOR_OBJECT);
+</pre>
+
+<p>
+<#if locale="ja">
+
+これにより不要なインスタンス生成を抑制することができます。
+
+<#else>
+It can avoid unnecessary instance creation.
+</#if>
+</p>
+
+<h4>
+<#if locale="ja">
+メンバアクセッサ
+<#else>
+Member accessors
+</#if>
+</h4>
+
+<p>
+<#if locale="ja">
+
+メンバアクセッサは、フィールドの読み出し、設定やメソッドの呼び出し機能
+を提供します。しばしばクラスのホワイトボックステストを行うためにフィー
+ルドやメソッドをprivateではなくパッケージプライベートにする場合があり
+ます。
+
+<#else>
+Member accessors provide functions to get/set fields and invoke
+methods. Sometimes fields or methods are declared package private
+instead of private so that you can easily make a white box unit
+test.
+</#if>
+</p>
+
+<pre>
+public class Foo {
+    int i;    // package private
+
+    public Foo(int i) {
+        this.i = i;
+    }
+}
+
+Foo foo = new Foo(123);
+assertEquals(123, foo.i);
+</pre>
+
+<p>
+<#if locale="ja">
+
+確かにテストの容易性は重要です。しかしながら、それだけでメンバのアクセ
+ス制御を決定しても良いものでしょうか？
+
+<#else>
+Yes, the testability is important. However, determining the access
+control only from the view of the testablity seems an issue that needs
+further disucssion.
+</#if>
+</p>
+
+<p>
+<#if locale="ja">
+
+メンバアクセッサを使用することで、クラス内のプライベートメンバにアクセ
+スすることができます。これにより、メンバをprivateにしたままで、単体テ
+ストを容易に行うことができ、テスト容易性のためだけにクラスの設計をねじ
+曲げずに済みます。
+
+<#else>
+By using Member accessors, you can even access private members in a
+class and you can happily make an unit test for a class that has
+private members without twisting your class.
+</#if>
+</p>
+
+<pre>
+// This is totally immutable class
+public final class Foo {
+    private int i;    // Anyone cannot modify!
+
+    public Foo(int i) {
+        this.i = i;
+    }
+...
+}
+
+FieldAccessor ac = FieldAccessor.getInstance();
+Foo foo = new Foo(123);
+assertEquals(123, ac.getIntField(Foo.class, foo, "i"));
+</pre>
+
+<h4>
+<#if locale="ja">
+算術演算アルゴリズム
+<#else>
+Arithmetic algorithm
+</#if>
+</h4>
+
+<p>
+<#if locale="ja">
+
+{@link com.ruimo.util.Math}クラスには、最大公約数の計算のような算術演
+算アルゴリズムが含まれます。
+
+<#else>
+
+{@link com.ruimo.util.Math} class includes arithmetic algorithm such
+as calculating the greatest common divisor.
+
+</#if>
+</p>
+</body>

@@ -1,0 +1,174 @@
+<body>
+
+<#if locale="ja">
+このパッケージにはビルダクラスが含まれます。
+<#else>
+This package contains builder classes.
+</#if>
+
+<#if locale="ja">
+<h4>ビルダ</h4>
+<#else>
+<h4>Builders</h4>
+</#if>
+
+<#if locale="ja">
+
+<p>このパッケージは、ビルダクラスを提供します。ビルダはコレクションの
+インスタンスを生成するためのクラスです。例えば、以下のコードはビルダを
+使用せずに、コレクションのインスタンスを生成する例です。</p>
+
+<#else>
+
+<p>This package provides builders that create an instance of a
+collection class. The following code exhibits creating ad-hoc instance
+of collection class:</p>
+
+</#if>
+
+<pre>
+List list = new ArrayList();
+list.add("Hello");
+list.add("World");
+foo(list);
+</pre>
+
+<#if locale="ja">
+
+<p>余計な、一時変数listが必要となっています。イニシャライザを使用した
+トリックを使用して、これを回避することもできますが、</p>
+
+<#else>
+
+<p>The tentative local variable 'list' is sometimes annoying
+especially in case creating unit tests. The following code uses an
+initializer trick to eliminate local variable:</p>
+
+</#if>
+
+<pre>
+foo(new ArrayList() {{
+  add("Hello");
+  add("World");
+}});
+</pre>
+
+<#if locale="ja">
+
+<p>しかし、これは実際にはArrayListの匿名クラスを作成していることになり
+ます。つまりここで生成されたインスタンスは、暗黙的にエンクロージングク
+ラスのインスタンスを所有してしまいます。特にエンクロージングクラスが直
+列化可能で無い場合、これはやっかいな問題を引き起こします。なぜなら
+ArrayListは直列化可能ですが、生成された匿名クラスが実際には直列化可能
+でないからです。これは契約に違反します。もしもこのインスタンスを直列化
+しようとすると、{@link java.io.NotSerializableException}がスローされて
+しまいます。
+</p>
+
+<#else>
+
+<p>This trick actually works. But as you can notice, this creates
+anonymous class of the ArrayList. It means that the created instance
+holds an instance of the enclosing class. This is annoying because if
+the enclosing class is not serializable, it breaks the contract. All
+of the collection classes implement the {@link
+java.io.Serializable}. Therefore, the subclasses should be
+serializable too. However, if the enclosing class is not serializable,
+the created instance is not serializable either. The {@link
+java.io.NotSerializableException} will be thrown when the instance is
+serialized.</p>
+
+</#if>
+
+<pre>
+    Test() throws IOException {
+        List list = new ArrayList() {{
+            add("Hello");
+        }};
+        new ObjectOutputStream(new ByteArrayOutputStream()).writeObject(list);
+...
+    }
+
+Exception in thread "main" java.io.NotSerializableException: Test
+        at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1156)
+        at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1509)
+        at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1474)
+        at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1392)
+        at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1150)
+        at java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:326)
+        at Test.<init>(Test.java:9)
+...
+</pre>
+
+<#if locale="ja">
+
+<p>ビルダは、こうした問題を解決します。以下はビルダを使用した例です。</p>
+
+<#else>
+
+<p>Builders deal with these issues. By using builder, you can code
+like the following:</p>
+
+</#if>
+
+<pre>
+foo(new ListBuilder(new ArrayList())
+      .add("Hello")
+      .add("World")
+      .get());
+</pre>
+
+<#if locale="ja">
+
+<p>ローカル変数も、匿名クラスも不要です。リンクトリストが必要ならば、
+かわりに{@link java.util.LinkedList}を使用するだけです。</p>
+
+<#else>
+
+<p>It needs no local variables creates no inner classes. If you need
+linked list to maintain the order, just pass the instance of {@link
+java.util.LinkedList} instead.</p>
+
+</#if>
+
+<pre>
+foo(new ListBuilder(new LinkedList())
+      .add("Hello")
+      .add("World")
+      .get());
+</pre>
+
+<#if locale="ja">
+
+<p>getUnmodifiable()を呼び出すことで、変更不可コレクションを得ることも
+できます。</p>
+
+<#else>
+
+<p>You can get unmodofiable collection by calling getUnmodifiable()
+method:</p>
+
+</#if>
+
+<pre>
+foo(new ListBuilder(new ArrayList())
+      .add("Hello")
+      .add("World")
+      .getUnmodifiable());
+</pre>
+
+<#if locale="ja">
+
+<p>これは単に{@link
+java.util.Collections#unmodifiableList(java.util.List)}によってラップ
+しているだけです。</p>
+
+<#else>
+
+<p>It simply wraps the instance by {@link
+java.util.Collections#unmodifiableList(java.util.List)} and the
+returned instance becomes unmodifiable.</p>
+
+</#if>
+
+</body>
