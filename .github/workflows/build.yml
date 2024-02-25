@@ -1,9 +1,6 @@
 name: Build
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    tags: ["*"]
+  deployment
 
 env:
   PKG_TOKEN: ${{secrets.PKG_TOKEN}}
