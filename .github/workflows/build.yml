@@ -1,6 +1,10 @@
 name: Build
 on:
-  [deployment, push]
+  push:
+    branches:
+    - main
+    tags:
+    - '*'
 
 env:
   PKG_TOKEN: ${{secrets.PKG_TOKEN}}
