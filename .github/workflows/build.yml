@@ -1,6 +1,6 @@
 name: Build
 on:
-  deployment
+  [deployment, push]
 
 env:
   PKG_TOKEN: ${{secrets.PKG_TOKEN}}
