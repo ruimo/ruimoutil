@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'com.ruimo.util'
-version = '0.1.0-SNAPSHOT'
 
 repositories {
   mavenCentral()
