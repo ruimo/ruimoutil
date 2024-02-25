@@ -10,6 +10,8 @@ repositories {
   mavenCentral()
 }
 
+println("p:" + project.findProperty("gpr.key") ?: System.getenv("TEST_TOKEN"))
+
 publishing {
     repositories {
         maven {
