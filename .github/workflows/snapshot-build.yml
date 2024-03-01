@@ -1,8 +1,8 @@
 name: Build
 on:
   push:
-    tags:
-    - '*'
+    branches:
+    - main
 
 env:
   PKG_TOKEN: ${{secrets.PKG_TOKEN}}
@@ -18,5 +18,3 @@ jobs:
           distribution: 'temurin'
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Publish
-        run: ./publish.sh
